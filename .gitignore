@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+presence.db
+presence.db-shm
+presence.db-wal
+.claude/

@@ -1,0 +1,42 @@
+Surface,Type,Relevant kinds,Monitor,Manage,Manage mechanism,Feed-driven?,Notes / gotchas,Build priority
+mcp.so,Agent registry,"agent, api, dev",Full,Autonomous,Self-register / form,No,Largest MCP catalog (~20k+ servers). Same metadata set as others — prepare once.,P1
+smithery.ai,Agent registry,"agent, api",Full,Autonomous,Self-register / API,No,Core MCP registry. Self-serve submission.,P1
+glama.ai/mcp,Agent registry,"agent, api",Full,Autonomous,Self-register,No,One of the four MCP registries that matter in 2026.,P2
+awesome-mcp-servers (GitHub),Agent registry,"agent, api, dev",Full,Autonomous (PR),GitHub PR via API,No,"Submit autonomously, but MERGE is the maintainer's call — treat as pending until merged.",P2
+A2A Agent Card (/.well-known/agent.json),Owned manifest,agent,Full,Autonomous,Self-host on customer domain,Yes,"Decentralized self-publish. Fully controllable, derives from canonical record.",P1
+x402 manifest (/.well-known/x402),Owned manifest,"agent, api",Full,Autonomous,Self-host on customer domain,Yes,Hireable-by-agents discovery surface. Feed-driven from record.,P2
+NANDA Index (AgentFacts),Agent registry,agent,Partial,Autonomous,Signed metadata publish,Yes,"Emerging, cryptographically-verifiable decentralized index. Low priority until adoption grows.",P3
+AWS / Google enterprise agent registries,Agent registry,agent,No,None,—,—,"Internal org governance, not public discovery. OUT OF SCOPE as a promotion surface.",—
+npm,Package registry,"lib, dev",Full,Autonomous,Package metadata + README (npm API),Yes,The README IS the listing. Publish/update is the management action.,P1
+PyPI,Package registry,"lib, dev",Full,Autonomous,Package metadata + README,Yes,Same model as npm.,P1
+crates.io,Package registry,"lib, dev",Full,Autonomous,Package metadata + README,Yes,Rust ecosystem.,P2
+Docker Hub,Package registry,"api, dev",Full,Autonomous,Repo description + README (API),Yes,Overview/README editable via API.,P2
+Hugging Face,Package registry,model,Full,Autonomous,Model card (API),Yes,Model card is the listing; fully manageable.,P2
+pkg.go.dev,Package registry,"lib, dev",Full,None,(derived from repo),Yes,"Auto-indexed from repo — you influence it ONLY by editing the repo, not directly.",P3
+GitHub repo (About/topics/README/releases),Owned channel,"dev, lib, api, agent",Full,Autonomous,GitHub API,Yes,The repo itself is a primary listing. Topics + README + release notes.,P1
+Product Hunt,Web/SaaS directory,"web, dev, agent",Full,Draft-only,Account / API,No,"Launch timing is strategic and gaming is policed — human-judgment event, never auto-launch.",P1
+G2,Web/SaaS directory,web,Full,Draft-only,Vendor portal (claim profile),No,Profile claimable; reviews not controllable. Verification-gated.,P2
+Capterra / GetApp,Web/SaaS directory,web,Full,Draft-only,Vendor portal,No,Gartner-owned. Vendor-gated listing.,P3
+AlternativeTo,Web/SaaS directory,"web, dev, desktop",Full,Draft-only,Suggest / community edit,No,"Crowdsourced — you can suggest, community decides. Good monitor surface.",P2
+SaaSHub,Web/SaaS directory,"web, dev",Full,Autonomous,Submit form,No,Self-serve submission.,P2
+Slant / StackShare,Web/SaaS directory,"web, dev",Full,Draft-only,Community submit,No,Community-curated comparisons.,P3
+BetaList,Web/SaaS directory,web,Full,Draft-only,Editorial submit,No,"Pre-launch directory, editorial review.",P3
+Long-tail AI/SaaS directories (100s),Web/SaaS directory,"web, agent, dev",Partial,Autonomous,Form-fill (per site),No,"The SubmitMatic territory — commoditized. Auto-fill where welcomed; low value each, breadth matters.",P2
+"PAD-friendly portals (Softpedia, SourceForge, MajorGeeks, SnapFiles, Download3k)",Desktop directory,desktop,Full,Autonomous,Self-hosted PAD XML (polled),Yes,"KEY desktop mechanism: one PAD URL on the customer domain, directories poll it. Maintenance channel, not growth. Maps cleanly to canonical record.",P2
+CNET Download / FileHippo / FileHorse / Softonic,Desktop directory,desktop,Full,Partial,Mixed: submit / editorial,No,Some editorial gatekeeping; not uniformly automatable.,P3
+Google Play Store,Mobile store,mobile,Full,Autonomous (owner console only),Play Developer API (customer's console),Yes,Manageable ONLY via the customer's own console + granted API access. Not a 3rd-party-listable surface. Reviews monitorable publicly.,P2
+Apple App Store,Mobile store,mobile,Full,Autonomous (owner console only),App Store Connect API (customer's),Yes,Same constraint as Play. Requires customer credential grant.,P3
+F-Droid,Mobile store,mobile,Full,Draft-only,Repo metadata / merge request,Yes,Open-source only; metadata via PR/merge.,P3
+APKPure / Aptoide / Amazon Appstore,Mobile store,mobile,Full,Partial,Submission,No,Secondary Android stores; submission-based.,P3
+Hacker News (Show HN),Community,all,Full,Draft-only,Human posts (Algolia API to monitor),No,"HIGH reach, HIGH risk. Never auto-post. Monitor via Algolia API. Self-serve agent drafts; human submits.",P1
+Reddit (relevant subs),Community,all,Full,Draft-only,Reddit API (monitor) / human posts,No,Auto-promotion = instant ban. Monitor freely; draft only.,P1
+dev.to,Community,"dev, lib, api, agent",Full,Draft-only,API (own account),No,"Could auto-post to own account, but norms favor draft-only.",P2
+Lobsters / Indie Hackers,Community,"dev, web",Full,Draft-only,Human posts,No,Smaller dev/founder communities.,P3
+Stack Overflow,Community,"dev, lib, api",Full,Never,—,No,Promotion banned outright — only genuine answers. Monitor for questions where the tool is the answer.,P3
+Discord servers,Community,all,Partial,Never,—,No,Mostly closed/uncrawlable; per-server access needed. MONITORING GAP — be honest about coverage here.,P3
+Open web search (Google/Bing),Search/social,all,Full,None,(influenced indirectly),—,Catch-all mention surface — why monitoring is near-universal for any named subject.,P1
+X / Twitter,Search/social,all,Partial,Draft-only,API (rate/cost limited),No,"Monitoring constrained by API cost. Posting = own account, draft-only.",P2
+YouTube,Search/social,all,Full,None,Search / Data API,—,Third-party videos — monitor only.,P3
+News / blogs / press,Search/social,all,Full,None,Search / RSS,—,Monitor for coverage and factual errors to flag.,P2
+AI answer engines (ChatGPT/Claude/Perplexity),Search/social,all,No,None,(GEO — influenced via broad presence),—,"Can't reliably query what they say, can't directly edit. Influenced by consistent presence everywhere. Strategic, not a managed surface.",P2
+Wikipedia,Search/social,"web, agent",Full,Never,—,No,Notability + conflict-of-interest rules forbid self-editing. Monitor only.,P3

@@ -1,0 +1,40 @@
+{
+  "name": "presence-engine",
+  "version": "1.0.0",
+  "description": "One-shot visibility audit for software projects — coverage score, per-surface presence map, actionable report.",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "seed": "tsx src/seed.ts",
+    "intake": "tsx src/intake-cli.ts",
+    "audit": "tsx src/audit.ts",
+    "keys:check": "tsx src/preflight.ts",
+    "test": "vitest run",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate"
+  },
+  "keywords": ["visibility", "audit", "presence", "mcp", "devtools", "seo"],
+  "author": "Phillip Jun",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.102.0",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "better-sqlite3": "^12.10.0",
+    "csv-parse": "^6.2.1",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "ulid": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^25.9.2",
+    "drizzle-kit": "^0.31.10",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
+  }
+}

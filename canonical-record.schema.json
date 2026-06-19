@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/canonical-record.v1.0.json",
+  "title": "Canonical Record",
+  "description": "Source-of-truth description of one project whose public visibility is audited across surfaces (registries, directories, package indexes, communities, search). The audit pipeline reads subject + links to check presence, and disambiguation to tell real mentions of the project apart from unrelated things sharing its name.",
+  "type": "object",
+  "required": ["schema_version", "record_id", "subject"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Version of THIS schema. Bump on breaking changes so old records can be migrated."
+    },
+    "record_id": {
+      "type": "string",
+      "description": "Stable internal id for the subject. Never reused."
+    },
+    "subject": {
+      "type": "object",
+      "description": "Identity of the thing being audited.",
+      "required": ["kind", "canonical_name", "slug", "lifecycle_status"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["saas", "web_app", "dev_tool", "library", "api", "ai_agent", "model", "desktop_app", "mobile_app"],
+          "description": "Drives which surfaces apply (matched against the surface registry's relevant kinds)."
+        },
+        "canonical_name": { "type": "string" },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Old names, common misspellings, alternate casings."
+        },
+        "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "category": { "type": "string", "description": "Primary category, e.g. 'agent orchestration'." },
+        "lifecycle_status": {
+          "type": "string",
+          "enum": ["prelaunch", "live", "maintenance", "deprecated"]
+        }
+      }
+    },
+    "disambiguation": {
+      "type": "object",
+      "description": "Entity-resolution hints for the web-mention scanner. Tells a real mention of this project apart from homonyms.",
+      "additionalProperties": false,
+      "required": ["official_domain"],
+      "properties": {
+        "official_domain":   { "type": "string" },
+        "official_handles":  { "type": "array", "items": { "type": "string" } },
+        "category":          { "type": "string" },
+        "must_match_any":    { "type": "array", "items": { "type": "string" } },
+        "negative_keywords": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "positioning": {
+      "type": "object",
+      "description": "How the project describes itself. Used as context when drafting report copy.",
+      "required": ["one_liner"],
+      "additionalProperties": false,
+      "properties": {
+        "tagline": { "type": "string", "maxLength": 80 },
+        "one_liner": { "type": "string", "maxLength": 160, "description": "The single sentence used everywhere a short blurb is needed." },
+        "short_description": { "type": "string", "maxLength": 500 },
+        "long_description": { "type": "string" },
+        "target_audience": { "type": "array", "items": { "type": "string" } },
+        "primary_use_cases": { "type": "array", "items": { "type": "string" } },
+        "key_differentiator": { "type": "string" }
+      }
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Structured facts about the project.",
+      "additionalProperties": false,
+      "properties": {
+        "current_version": { "type": "string" },
+        "platforms": { "type": "array", "items": { "type": "string" } },
+        "languages_supported": { "type": "array", "items": { "type": "string" } },
+        "license": { "type": "string" },
+        "integrations": { "type": "array", "items": { "type": "string" } },
+        "deployment": { "type": "array", "items": { "type": "string", "enum": ["cloud", "self_host", "on_prem", "edge", "vps"] } }
+      }
+    },
+    "links": {
+      "type": "object",
+      "description": "Canonical URLs and registry package names. Presence adapters read these.",
+      "additionalProperties": false,
+      "properties": {
+        "homepage": { "type": "string", "format": "uri" },
+        "docs": { "type": "string", "format": "uri" },
+        "repository": { "type": "string", "format": "uri" },
+        "changelog": { "type": "string", "format": "uri" },
+        "demo": { "type": "string", "format": "uri" },
+        "status_page": { "type": "string", "format": "uri" },
+        "agent_endpoint": { "type": "string", "format": "uri", "description": "Hireable endpoint, if the subject is itself an agent/API." },
+        "well_known_x402": { "type": "string", "format": "uri", "description": "/.well-known/x402 manifest, for agent discovery." },
+        "mcp_manifest": { "type": "string", "format": "uri" },
+        "npm_package": { "type": "string", "description": "npm package NAME (not a URL), e.g. 'beacon-mcp'." },
+        "pypi_package": { "type": "string", "description": "PyPI package NAME (not a URL)." }
+      }
+    }
+  },
+  "examples": [
+    {
+      "schema_version": "1.0",
+      "record_id": "rec_example_0001",
+      "subject": {
+        "kind": "ai_agent",
+        "canonical_name": "Beacon",
+        "aliases": ["Beacon MCP"],
+        "slug": "beacon",
+        "category": "example MCP server",
+        "lifecycle_status": "live"
+      },
+      "disambiguation": {
+        "official_domain": "beacon.example.com",
+        "official_handles": ["github.com/exampleco/beacon"],
+        "category": "AI agent / MCP server",
+        "must_match_any": ["MCP", "AI agent"],
+        "negative_keywords": ["lighthouse", "navigation light"]
+      },
+      "positioning": {
+        "one_liner": "An example MCP server record used to demonstrate the visibility audit."
+      },
+      "links": {
+        "homepage": "https://beacon.example.com",
+        "repository": "https://github.com/exampleco/beacon"
+      }
+    }
+  ]
+}

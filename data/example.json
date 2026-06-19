@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "record_id": "rec_example_0001",
+  "subject": {
+    "kind": "ai_agent",
+    "canonical_name": "Beacon",
+    "aliases": ["Beacon MCP"],
+    "slug": "beacon",
+    "category": "example MCP server",
+    "lifecycle_status": "live"
+  },
+  "disambiguation": {
+    "official_domain": "beacon.example.com",
+    "official_handles": ["github.com/exampleco/beacon"],
+    "category": "AI agent / MCP server",
+    "must_match_any": ["MCP", "AI agent"],
+    "negative_keywords": ["lighthouse", "navigation light"]
+  },
+  "positioning": {
+    "one_liner": "An example MCP server record used to demonstrate the visibility audit."
+  },
+  "links": {
+    "homepage": "https://beacon.example.com",
+    "repository": "https://github.com/exampleco/beacon"
+  }
+}
