@@ -69,7 +69,7 @@ intake → resolve surfaces → presence checks → coverage score → report
 |---|---|
 | **intake** | Your JSON record is validated against the schema and upserted into SQLite. Re-intake snapshots the old version. |
 | **resolve surfaces** | The [surface registry](surface-registry.csv) (41 surfaces) is filtered to those relevant to your project's `kind`. |
-| **presence checks** | Each surface is probed. The **GitHub** adapter calls the GitHub API; the **web-search** adapter (Brave) covers everything else. |
+| **presence checks** | Each surface is probed. High-confidence adapters hit authoritative APIs directly — **GitHub** (repo), **npm** and **PyPI** (package registries); the **web-search** adapter (Brave) covers everything else at low confidence. Surfaces the registry marks as un-monitorable resolve to `unknown` instead of a guess. |
 | **coverage score** | A priority-weighted average over every surface that could be checked. |
 | **report** | Claude (Sonnet) writes a tight summary + ranked action points. Without a key, a deterministic template is used. |
 
@@ -176,8 +176,9 @@ Postgres swap.
 
 ## Roadmap
 
-- **Dedicated package adapters.** High-confidence checks against npm and PyPI
-  (the record already carries `links.npm_package` / `links.pypi_package`).
+- **More package adapters.** High-confidence checks against crates.io, Docker
+  Hub, and Hugging Face (npm and PyPI already ship; these need new `links` fields
+  on the canonical record).
 - **Mentions & opportunities.** Scan HN/Reddit/GitHub for real (disambiguated)
   mentions, flag factual errors, and surface unanswered threads with drafted
   replies — never auto-posted.

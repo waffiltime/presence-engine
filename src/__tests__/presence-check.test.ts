@@ -26,6 +26,16 @@ describe('checkPresence', () => {
     expect(wsCheck).toHaveBeenCalledTimes(1);   // non-github surface → websearch
   });
 
+  it('short-circuits an un-monitorable surface (monitor=no) to unknown without calling any adapter', async () => {
+    const surfaces = [{ surfaceId: 'ai', name: 'AI answer engines', monitor: 'no' }];
+    const results = await checkPresence({}, surfaces as any);
+    expect(results).toHaveLength(1);
+    expect(results[0].state).toBe('unknown');
+    expect(results[0].confidence).toBe('low');
+    expect(ghCheck).not.toHaveBeenCalled();
+    expect(wsCheck).not.toHaveBeenCalled();
+  });
+
   it('captures an adapter error as an unknown/low result instead of throwing', async () => {
     ghCheck.mockRejectedValue(new Error('boom'));
     const results = await checkPresence({}, [{ surfaceId: 'gh', name: 'GitHub repo' }] as any);
