@@ -56,6 +56,15 @@ export async function planSubmissions(recordId: string): Promise<number> {
     ));
     if (existing.some(r => r.payloadHash === payloadHash)) continue;
 
+    // Tidy: a prior failed attempt with this exact payload is being re-proposed —
+    // drop it so the queue holds one row per (surface, payload), not a pile.
+    await db.delete(approvalQueue).where(and(
+      eq(approvalQueue.recordId, recordId),
+      eq(approvalQueue.surfaceId, surface.surfaceId),
+      eq(approvalQueue.status, 'failed'),
+      eq(approvalQueue.payloadHash, payloadHash),
+    ));
+
     await enqueue({
       recordId, surfaceId: surface.surfaceId, managePolicy: surface.managePolicy,
       mechanism: proposal.mechanism, payload: proposal.payload, payloadHash, preview: proposal.preview,

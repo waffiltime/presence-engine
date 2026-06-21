@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+import { eq } from 'drizzle-orm';
 import { db } from '../db.js';
 import { approvalQueue, canonicalRecords, auditRuns, surfaces } from '../schema.js';
 import { planSubmissions } from '../submit/plan.js';
@@ -82,5 +83,21 @@ describe('planSubmissions', () => {
     expect(n).toBe(1);
     const rows = await db.select().from(approvalQueue);
     expect(rows[0].mechanism).toBe('api');
+  });
+
+  it('supersedes a prior failed row for the same surface+payload instead of piling up', async () => {
+    await db.insert(auditRuns).values({
+      auditId: ulid(), recordId, coverageScore: 0, report: {}, startedAt: 'a', finishedAt: 'b',
+      presence: [{ surfaceId: 'a2a-agent-card-well-known-agent-json', state: 'absent', confidence: 'high' }],
+    });
+    await planSubmissions(recordId);
+    let rows = await db.select().from(approvalQueue);
+    expect(rows).toHaveLength(1);
+    await db.update(approvalQueue).set({ status: 'failed' }).where(eq(approvalQueue.id, rows[0].id));
+    const n = await planSubmissions(recordId);
+    expect(n).toBe(1);
+    rows = await db.select().from(approvalQueue);
+    expect(rows).toHaveLength(1);
+    expect(rows[0].status).toBe('pending');
   });
 });
