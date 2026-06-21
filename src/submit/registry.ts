@@ -6,11 +6,13 @@ import { padXmlAdapter } from './adapters/pad-xml.js';
 import { githubRepoAdapter } from './adapters/github-repo.js';
 import { npmListingAdapter } from './adapters/npm-listing.js';
 import { pypiListingAdapter } from './adapters/pypi-listing.js';
+import { thirdPartyFormAdapter } from './adapters/third-party-form.js';
 
 // No catch-all: a surface with no adapter is simply not actionable yet.
 export const SUBMIT_ADAPTERS: SubmitAdapter[] = [
   a2aCardAdapter, x402Adapter, padXmlAdapter,
   githubRepoAdapter, npmListingAdapter, pypiListingAdapter,
+  thirdPartyFormAdapter,
 ];
 
 export function adapterFor(surface: Surface): SubmitAdapter | undefined {

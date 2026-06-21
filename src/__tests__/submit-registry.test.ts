@@ -20,4 +20,11 @@ describe('submit adapter registry', () => {
     expect(adapterFor({ surfaceId: 'npm', name: 'npm' } as any)?.plan({ links: {} } as any, {} as any).mechanism).toBe('assisted_manual');
     expect(adapterFor({ surfaceId: 'pypi', name: 'PyPI' } as any)?.plan({ links: {} } as any, {} as any).mechanism).toBe('assisted_manual');
   });
+
+  it('routes Class C third-party surfaces to the assisted-manual adapter', () => {
+    for (const id of ['mcp-so', 'smithery-ai', 'glama-ai-mcp', 'awesome-mcp-servers-github', 'saashub', 'long-tail-ai-saas-directories-100s']) {
+      const a = adapterFor({ surfaceId: id, name: id } as any);
+      expect(a?.plan({ subject: {}, links: {} } as any, { surfaceId: id, name: id } as any).mechanism).toBe('assisted_manual');
+    }
+  });
 });
