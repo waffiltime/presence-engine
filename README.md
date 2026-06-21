@@ -148,16 +148,19 @@ your kind of project, not merely on the most surfaces.
 ## Submitting (experimental)
 
 The audit tells you where you're absent; the `submit:*` commands help you act on it.
-Phase 1 covers self-hosted manifests (A2A agent card, x402, PAD XML) — generated
-from your record, gated behind human approval, never auto-posted:
+Manifests (A2A card, x402, PAD XML) generate a file you host; owned channels you
+control (GitHub repo metadata) are updated via API after you connect a token;
+npm/PyPI changes are prepared for you to publish. Everything is gated behind human
+approval — nothing is auto-posted.
 
+    npm run submit:connect -- <slug>   # verify which platform tokens are set/valid
     npm run submit:plan -- <slug>      # propose submissions from the latest audit
     npm run submit:review -- <slug>    # inspect previews; --approve-all or --approve <id>
-    npm run submit:run -- <slug>       # generate approved artifacts into out/<slug>/
+    npm run submit:run -- <slug>       # execute approved actions (generate files / API writes)
 
-Manifest surfaces produce a file you deploy to your own domain; the next audit
-confirms it went live. Credentialed (npm/GitHub/etc.) and third-party submissions
-land in later phases.
+`submit:connect` reads tokens from `.env` (e.g. `GITHUB_TOKEN`), so once set they
+persist across runs — re-running the loop after a project change re-submits only
+what changed. Third-party registry submissions land in a later phase.
 
 ## The surface registry
 
