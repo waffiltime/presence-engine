@@ -8,7 +8,7 @@ const recordId = 'rec_plan_test';
 const record = {
   subject: { canonical_name: 'Beacon', slug: 'beacon', kind: 'ai_agent' },
   positioning: { one_liner: 'x' },
-  links: { agent_endpoint: 'https://beacon.example.com/a2a', homepage: 'https://beacon.example.com' },
+  links: { agent_endpoint: 'https://beacon.example.com/a2a', homepage: 'https://beacon.example.com', repository: 'https://github.com/exampleco/beacon' },
   disambiguation: { official_domain: 'beacon.example.com' },
 };
 
@@ -32,6 +32,7 @@ describe('planSubmissions', () => {
     });
     await seedSurface('a2a-agent-card-well-known-agent-json', 'autonomous');
     await seedSurface('wikipedia', 'never');
+    await seedSurface('github-repo-about-topics-readme-releases', 'autonomous');
   });
 
   it('enqueues a pending proposal for an autonomous manifest surface that is absent', async () => {
@@ -70,5 +71,16 @@ describe('planSubmissions', () => {
 
   it('throws a clear error when there is no audit to plan from', async () => {
     await expect(planSubmissions(recordId)).rejects.toThrow(/audit/i);
+  });
+
+  it('proposes an owned-channel api surface even when presence says listed', async () => {
+    await db.insert(auditRuns).values({
+      auditId: ulid(), recordId, coverageScore: 0, report: {}, startedAt: 'a', finishedAt: 'b',
+      presence: [{ surfaceId: 'github-repo-about-topics-readme-releases', state: 'listed', confidence: 'high' }],
+    });
+    const n = await planSubmissions(recordId);
+    expect(n).toBe(1);
+    const rows = await db.select().from(approvalQueue);
+    expect(rows[0].mechanism).toBe('api');
   });
 });

@@ -9,6 +9,10 @@ import { enqueue } from './queue.js';
 const ACTIONABLE = new Set(['autonomous', 'draft_only']);
 const OPEN_STATUSES = ['pending', 'approved', 'submitted', 'pending_external', 'needs_human'];
 
+// Owned-channel updates (e.g. GitHub repo metadata) are NOT creates — propose them
+// even when presence says 'listed'; payload-hash idempotency stops redundant work.
+const UPDATE_MECHANISMS = new Set(['api']);
+
 function hashPayload(payload: unknown): string {
   return createHash('sha256').update(JSON.stringify(payload)).digest('hex');
 }
@@ -30,15 +34,19 @@ export async function planSubmissions(recordId: string): Promise<number> {
   let enqueued = 0;
   for (const surface of surfaces) {
     if (!ACTIONABLE.has(surface.managePolicy)) continue;
+
     const pres = presenceBy.get(surface.surfaceId);
-    // Only act on surfaces that were audited and found not-listed.
-    if (!pres) continue;
-    if (pres.state === 'listed' && pres.confidence === 'high') continue;
+    if (!pres) continue; // only act on surfaces the audit evaluated
 
     const adapter = adapterFor(surface);
     if (!adapter) continue;
 
     const proposal = adapter.plan(record, surface);
+
+    // Skip when already listed — but ONLY for create-type mechanisms.
+    if (!UPDATE_MECHANISMS.has(proposal.mechanism)
+        && pres.state === 'listed' && pres.confidence === 'high') continue;
+
     const payloadHash = hashPayload(proposal.payload);
 
     const existing = await db.select().from(approvalQueue).where(and(
