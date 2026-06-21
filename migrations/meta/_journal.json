@@ -15,6 +15,13 @@
       "when": 1781939586776,
       "tag": "0001_solid_absorbing_man",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1782047299921,
+      "tag": "0002_great_pestilence",
+      "breakpoints": true
     }
   ]
 }

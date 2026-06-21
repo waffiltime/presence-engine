@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer, real, index } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text, integer, real, index, primaryKey } from 'drizzle-orm/sqlite-core';
 
 export const canonicalRecords = sqliteTable('canonical_records', {
   recordId: text('record_id').primaryKey(),
@@ -94,6 +94,17 @@ export const auditRuns = sqliteTable('audit_runs', {
   startedAt: text('started_at').notNull(),
   finishedAt: text('finished_at').notNull(),
 }, (t) => ({ recIdx: index('ar_record_idx').on(t.recordId) }));
+
+// Per-(record,surface) credential connection state, set by `submit:connect`.
+// The token itself NEVER lands here — only whether it verified.
+export const connectionStatus = sqliteTable('connection_status', {
+  recordId: text('record_id').notNull(),
+  surfaceId: text('surface_id').notNull(),
+  state: text('state').notNull(),               // connected | missing | invalid | present_unverified
+  lastVerifiedAt: text('last_verified_at').notNull(),
+}, (t) => ({
+  pk: primaryKey({ columns: [t.recordId, t.surfaceId] }),
+}));
 
 // Proposed submissions awaiting human approval, then execution. status is mutable
 // (like mentions/opportunities); the audit trail is the append-only provenance_log.
