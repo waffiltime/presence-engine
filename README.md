@@ -145,6 +145,20 @@ score = round( Σ(weight × state_score) / Σ(weight) × 100 )
 So a high score means you're well-listed on the surfaces that matter *most* for
 your kind of project, not merely on the most surfaces.
 
+## Submitting (experimental)
+
+The audit tells you where you're absent; the `submit:*` commands help you act on it.
+Phase 1 covers self-hosted manifests (A2A agent card, x402, PAD XML) — generated
+from your record, gated behind human approval, never auto-posted:
+
+    npm run submit:plan -- <slug>      # propose submissions from the latest audit
+    npm run submit:review -- <slug>    # inspect previews; --approve-all or --approve <id>
+    npm run submit:run -- <slug>       # generate approved artifacts into out/<slug>/
+
+Manifest surfaces produce a file you deploy to your own domain; the next audit
+confirms it went live. Credentialed (npm/GitHub/etc.) and third-party submissions
+land in later phases.
+
 ## The surface registry
 
 `surface-registry.csv` is the data that drives everything — 41 surfaces, each
