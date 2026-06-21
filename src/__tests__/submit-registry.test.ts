@@ -10,4 +10,14 @@ describe('submit adapter registry', () => {
   it('returns undefined for a surface no adapter owns yet', () => {
     expect(adapterFor({ surfaceId: 'reddit-relevant-subs', name: 'Reddit' } as any)).toBeUndefined();
   });
+
+  it('routes the github repo surface to the api adapter', () => {
+    const a = adapterFor({ surfaceId: 'github-repo-about-topics-readme-releases', name: 'GitHub repo' } as any);
+    expect(a?.plan({ links: {} } as any, {} as any).mechanism).toBe('api');
+  });
+
+  it('routes npm and pypi to assisted-manual adapters', () => {
+    expect(adapterFor({ surfaceId: 'npm', name: 'npm' } as any)?.plan({ links: {} } as any, {} as any).mechanism).toBe('assisted_manual');
+    expect(adapterFor({ surfaceId: 'pypi', name: 'PyPI' } as any)?.plan({ links: {} } as any, {} as any).mechanism).toBe('assisted_manual');
+  });
 });
