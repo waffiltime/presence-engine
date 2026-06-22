@@ -149,7 +149,7 @@ your kind of project, not merely on the most surfaces.
 
 The audit tells you where you're absent; the `submit:*` commands help you act on it.
 Manifests (A2A card, x402, PAD XML) generate a file you host; owned channels you
-control (GitHub repo metadata) are updated via API after you connect a token;
+control (GitHub repo metadata and Docker Hub descriptions) are updated via API after you connect a token;
 npm/PyPI changes are prepared for you to publish. Everything is gated behind human
 approval — nothing is auto-posted.
 
