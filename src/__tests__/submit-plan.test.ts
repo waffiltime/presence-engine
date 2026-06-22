@@ -38,7 +38,7 @@ describe('planSubmissions', () => {
 
   it('enqueues a pending proposal for an autonomous manifest surface that is absent', async () => {
     await db.insert(auditRuns).values({
-      auditId: ulid(), recordId, coverageScore: 0, report: {}, startedAt: 'a', finishedAt: 'b',
+      auditId: ulid(), recordId, coverageScore: 0, report: {}, startedAt: '2020-01-01T00:00:00.000Z', finishedAt: '2020-01-01T00:00:00.000Z',
       presence: [{ surfaceId: 'a2a-agent-card-well-known-agent-json', state: 'absent', confidence: 'high' }],
     });
     const n = await planSubmissions(recordId);
@@ -51,7 +51,7 @@ describe('planSubmissions', () => {
 
   it('never proposes a manage_policy=never surface', async () => {
     await db.insert(auditRuns).values({
-      auditId: ulid(), recordId, coverageScore: 0, report: {}, startedAt: 'a', finishedAt: 'b',
+      auditId: ulid(), recordId, coverageScore: 0, report: {}, startedAt: '2020-01-01T00:00:00.000Z', finishedAt: '2020-01-01T00:00:00.000Z',
       presence: [{ surfaceId: 'wikipedia', state: 'absent', confidence: 'high' }],
     });
     const n = await planSubmissions(recordId);
@@ -61,7 +61,7 @@ describe('planSubmissions', () => {
 
   it('is idempotent: re-planning with no change enqueues nothing new', async () => {
     await db.insert(auditRuns).values({
-      auditId: ulid(), recordId, coverageScore: 0, report: {}, startedAt: 'a', finishedAt: 'b',
+      auditId: ulid(), recordId, coverageScore: 0, report: {}, startedAt: '2020-01-01T00:00:00.000Z', finishedAt: '2020-01-01T00:00:00.000Z',
       presence: [{ surfaceId: 'a2a-agent-card-well-known-agent-json', state: 'absent', confidence: 'high' }],
     });
     await planSubmissions(recordId);
@@ -76,7 +76,7 @@ describe('planSubmissions', () => {
 
   it('proposes an owned-channel api surface even when presence says listed', async () => {
     await db.insert(auditRuns).values({
-      auditId: ulid(), recordId, coverageScore: 0, report: {}, startedAt: 'a', finishedAt: 'b',
+      auditId: ulid(), recordId, coverageScore: 0, report: {}, startedAt: '2020-01-01T00:00:00.000Z', finishedAt: '2020-01-01T00:00:00.000Z',
       presence: [{ surfaceId: 'github-repo-about-topics-readme-releases', state: 'listed', confidence: 'high' }],
     });
     const n = await planSubmissions(recordId);
@@ -87,7 +87,7 @@ describe('planSubmissions', () => {
 
   it('supersedes a prior failed row for the same surface+payload instead of piling up', async () => {
     await db.insert(auditRuns).values({
-      auditId: ulid(), recordId, coverageScore: 0, report: {}, startedAt: 'a', finishedAt: 'b',
+      auditId: ulid(), recordId, coverageScore: 0, report: {}, startedAt: '2020-01-01T00:00:00.000Z', finishedAt: '2020-01-01T00:00:00.000Z',
       presence: [{ surfaceId: 'a2a-agent-card-well-known-agent-json', state: 'absent', confidence: 'high' }],
     });
     await planSubmissions(recordId);
