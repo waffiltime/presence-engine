@@ -164,6 +164,11 @@ what changed. Third-party registries (mcp.so, smithery.ai, glama.ai, SaaSHub, aw
 and long-tail directories) are prepared as ready-to-submit packets you paste in —
 the tool never auto-posts to a third-party site.
 
+For community surfaces (Hacker News, Reddit, dev.to, Product Hunt, X), the tool
+**drafts** post copy for you to review and post yourself — it never posts to these
+on its own, because auto-promotion there is against the rules and gets projects
+banned.
+
 ## The surface registry
 
 `surface-registry.csv` is the data that drives everything — 41 surfaces, each
