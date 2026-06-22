@@ -14,6 +14,14 @@ async function seedGithub() {
   }).onConflictDoNothing();
 }
 
+async function seedDocker() {
+  await db.insert(surfaces).values({
+    surfaceId: 'docker-hub', name: 'Docker Hub', url: null, surfaceType: 'package_registry',
+    relevantKinds: ['api', 'dev'], monitor: 'full', managePolicy: 'autonomous',
+    manageMechanism: null, feedDriven: true, notes: null, buildPriority: 'P2',
+  }).onConflictDoNothing();
+}
+
 describe('connectSurfaces', () => {
   beforeEach(async () => {
     await db.delete(connectionStatus);
@@ -43,6 +51,15 @@ describe('connectSurfaces', () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ status: 401 }));
     const summary = await connectSurfaces('rec1', 'ai_agent');
     expect(summary.find(s => s.surfaceId === GH)?.state).toBe('invalid');
+  });
+
+  it('verifies Docker Hub via login when the token is set', async () => {
+    await seedDocker();
+    vi.stubEnv('DOCKERHUB_USERNAME', 'exampleco');
+    vi.stubEnv('DOCKERHUB_TOKEN', 'pat');
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ status: 200 }));
+    const summary = await connectSurfaces('rec1', 'dev_tool');
+    expect(summary.find(s => s.surfaceId === 'docker-hub')?.state).toBe('connected');
   });
 
   it('records present_unverified when verification throws', async () => {

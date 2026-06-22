@@ -20,6 +20,20 @@ export const CREDENTIAL_SPECS: CredentialSpec[] = [
       return res.status === 200;
     },
   },
+  {
+    surfaceId: 'docker-hub',
+    envVar: 'DOCKERHUB_TOKEN',
+    mintUrl: 'https://app.docker.com/settings/personal-access-tokens',
+    async verify(token: string): Promise<boolean> {
+      const username = process.env.DOCKERHUB_USERNAME;
+      if (!username) return false;
+      const res = await fetch('https://hub.docker.com/v2/users/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password: token }),
+      });
+      return res.status === 200;
+    },
+  },
 ];
 
 export function credentialSpecFor(surfaceId: string): CredentialSpec | undefined {
