@@ -28,6 +28,11 @@ describe('submit adapter registry', () => {
     }
   });
 
+  it('routes docker-hub to api and hugging-face to assisted-manual', () => {
+    expect(adapterFor({ surfaceId: 'docker-hub', name: 'Docker Hub' } as any)?.plan({ links: {} } as any, {} as any).mechanism).toBe('api');
+    expect(adapterFor({ surfaceId: 'hugging-face', name: 'Hugging Face' } as any)?.plan({ subject: {}, positioning: {}, links: {} } as any, {} as any).mechanism).toBe('assisted_manual');
+  });
+
   it('routes community/social surfaces to the draft adapter', () => {
     for (const id of ['hacker-news-show-hn', 'reddit-relevant-subs', 'dev-to', 'x-twitter', 'product-hunt']) {
       const a = adapterFor({ surfaceId: id, name: id } as any);

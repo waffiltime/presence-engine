@@ -8,11 +8,14 @@ import { npmListingAdapter } from './adapters/npm-listing.js';
 import { pypiListingAdapter } from './adapters/pypi-listing.js';
 import { thirdPartyFormAdapter } from './adapters/third-party-form.js';
 import { draftAdapter } from './adapters/draft.js';
+import { dockerHubAdapter } from './adapters/docker-hub.js';
+import { huggingFaceAdapter } from './adapters/hugging-face.js';
 
 // No catch-all: a surface with no adapter is simply not actionable yet.
 export const SUBMIT_ADAPTERS: SubmitAdapter[] = [
   a2aCardAdapter, x402Adapter, padXmlAdapter,
   githubRepoAdapter, npmListingAdapter, pypiListingAdapter,
+  dockerHubAdapter, huggingFaceAdapter,
   thirdPartyFormAdapter, draftAdapter,
 ];
 
