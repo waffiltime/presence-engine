@@ -8,7 +8,7 @@ describe('submit adapter registry', () => {
   });
 
   it('returns undefined for a surface no adapter owns yet', () => {
-    expect(adapterFor({ surfaceId: 'reddit-relevant-subs', name: 'Reddit' } as any)).toBeUndefined();
+    expect(adapterFor({ surfaceId: 'some-unknown-surface', name: 'Unknown' } as any)).toBeUndefined();
   });
 
   it('routes the github repo surface to the api adapter', () => {
@@ -25,6 +25,13 @@ describe('submit adapter registry', () => {
     for (const id of ['mcp-so', 'smithery-ai', 'glama-ai-mcp', 'awesome-mcp-servers-github', 'saashub', 'long-tail-ai-saas-directories-100s']) {
       const a = adapterFor({ surfaceId: id, name: id } as any);
       expect(a?.plan({ subject: {}, links: {} } as any, { surfaceId: id, name: id } as any).mechanism).toBe('assisted_manual');
+    }
+  });
+
+  it('routes community/social surfaces to the draft adapter', () => {
+    for (const id of ['hacker-news-show-hn', 'reddit-relevant-subs', 'dev-to', 'x-twitter', 'product-hunt']) {
+      const a = adapterFor({ surfaceId: id, name: id } as any);
+      expect(a?.plan({ subject: {}, positioning: {}, links: {} } as any, { surfaceId: id, name: id } as any).mechanism).toBe('draft');
     }
   });
 });
