@@ -38,4 +38,10 @@ describe('thirdPartyFormAdapter', () => {
     expect(r.outcome).toBe('needs_human');
     expect(r.notes).toContain('SaaSHub');
   });
+
+  it('also covers the draft_only directory surfaces as assisted-manual', () => {
+    for (const id of ['g2', 'capterra-getapp', 'alternativeto', 'slant-stackshare', 'betalist', 'f-droid']) {
+      expect(thirdPartyFormAdapter.matches({ surfaceId: id, name: id } as any)).toBe(true);
+    }
+  });
 });

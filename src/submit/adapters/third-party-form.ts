@@ -11,6 +11,13 @@ const THIRD_PARTY_SURFACES = new Set([
   'awesome-mcp-servers-github',
   'saashub',
   'long-tail-ai-saas-directories-100s',
+  // draft_only vendor-portal directories — claim/suggest a profile (assisted-manual)
+  'g2',
+  'capterra-getapp',
+  'alternativeto',
+  'slant-stackshare',
+  'betalist',
+  'f-droid',
 ]);
 
 function buildFields(record: any): Record<string, unknown> {
