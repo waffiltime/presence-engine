@@ -27,6 +27,13 @@ describe('validateRecord', () => {
     expect(validateRecord(r)).toEqual({ ok: true });
   });
 
+  it('accepts optional docker_image and hf_model in links', () => {
+    const r = makeMinimalRecord({
+      links: { docker_image: 'exampleco/beacon', hf_model: 'exampleco/beacon' },
+    });
+    expect(validateRecord(r)).toEqual({ ok: true });
+  });
+
   it('rejects removed commercial blocks (claims) via additionalProperties', () => {
     const r = makeMinimalRecord({ claims: [] });
     expect(validateRecord(r).ok).toBe(false);

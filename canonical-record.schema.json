@@ -97,7 +97,9 @@
         "well_known_x402": { "type": "string", "format": "uri", "description": "/.well-known/x402 manifest, for agent discovery." },
         "mcp_manifest": { "type": "string", "format": "uri" },
         "npm_package": { "type": "string", "description": "npm package NAME (not a URL), e.g. 'beacon-mcp'." },
-        "pypi_package": { "type": "string", "description": "PyPI package NAME (not a URL)." }
+        "pypi_package": { "type": "string", "description": "PyPI package NAME (not a URL)." },
+        "docker_image": { "type": "string", "description": "Docker Hub image as 'namespace/repository', e.g. 'exampleco/beacon'." },
+        "hf_model": { "type": "string", "description": "Hugging Face model id as 'org/model'." }
       }
     }
   },
