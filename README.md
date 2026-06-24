@@ -145,6 +145,30 @@ score = round( Σ(weight × state_score) / Σ(weight) × 100 )
 So a high score means you're well-listed on the surfaces that matter *most* for
 your kind of project, not merely on the most surfaces.
 
+## Submitting (experimental)
+
+The audit tells you where you're absent; the `submit:*` commands help you act on it.
+Manifests (A2A card, x402, PAD XML) generate a file you host; owned channels you
+control (GitHub repo metadata and Docker Hub descriptions) are updated via API after you connect a token;
+npm/PyPI changes are prepared for you to publish. Everything is gated behind human
+approval — nothing is auto-posted.
+
+    npm run submit:connect -- <slug>   # verify which platform tokens are set/valid
+    npm run submit:plan -- <slug>      # propose submissions from the latest audit
+    npm run submit:review -- <slug>    # inspect previews; --approve-all or --approve <id>
+    npm run submit:run -- <slug>       # execute approved actions (generate files / API writes)
+
+`submit:connect` reads tokens from `.env` (e.g. `GITHUB_TOKEN`), so once set they
+persist across runs — re-running the loop after a project change re-submits only
+what changed. Third-party registries (mcp.so, smithery.ai, glama.ai, SaaSHub, awesome-mcp-servers,
+and long-tail directories) are prepared as ready-to-submit packets you paste in —
+the tool never auto-posts to a third-party site.
+
+For community surfaces (Hacker News, Reddit, dev.to, Product Hunt, X), the tool
+**drafts** post copy for you to review and post yourself — it never posts to these
+on its own, because auto-promotion there is against the rules and gets projects
+banned.
+
 ## The surface registry
 
 `surface-registry.csv` is the data that drives everything — 41 surfaces, each

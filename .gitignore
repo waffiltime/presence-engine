@@ -5,3 +5,4 @@ presence.db
 presence.db-shm
 presence.db-wal
 .claude/
+out/
